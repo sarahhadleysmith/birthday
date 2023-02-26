@@ -101,39 +101,26 @@ function ending(){
       end.style.display = "block";
     }, 4000);
 
-  setTimeout(function() {
+  /*setTimeout(function() {
       sendEmail();
-    }, 1000); 
+    }, 5000); 
 
-
-}
-
-function email(){
+*/
 }
 
 
-function sendEmail() {
-  let userInput = window.prompt("Please enter some input:");
+function Email() {
+  // Get user input using prompt
+  const userInput = window.prompt('Please enter your message:');
 
-// authenticate the user using the Google API client library
-gapi.auth2.getAuthInstance().signIn().then(() => {
-  // create the email message
-  let message = [
-    "Content-Type: text/plain; charset=\"UTF-8\"\r\n",
-    "From: sarahhadleysmith@gmail.com\r\n",
-    "To: sarahhadleysmith@gmail.com\r\n",
-    "Subject: User input from my website\r\n\r\n",
-    userInput
-  ].join("");
+  // Encode the user input as a URI component
+  const encodedInput = encodeURIComponent(userInput);
 
-  // send the email using the Gmail API client library
-  gapi.client.gmail.users.messages.send({
-    'userId': 'me',
-    'resource': {
-      'raw': window.btoa(message).replace(/\+/g, '-').replace(/\//g, '_')
-    }
-  }).then((response) => {
-    console.log(response.result);
-  });
-});
+  // Construct the mailto: URL with the encoded input and your email address
+  const mailtoUrl = `mailto:sarahhadleysmith@gmail.com?subject=User input&body=${encodedInput}`;
+
+  // Open the user's default email client with the mailto: URL
+  window.location.href = mailtoUrl;
 }
+
+document.querySelector('button').addEventListener('click', Email);
