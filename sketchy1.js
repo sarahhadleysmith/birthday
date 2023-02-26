@@ -99,41 +99,41 @@ function randomEvent(number) {
 function ending(){
   setTimeout(function() {
       end.style.display = "block";
-    }, 3000);
+    }, 4000);
 
- /* setTimeout(function() {
+  setTimeout(function() {
       sendEmail();
     }, 1000); 
 
-*/
+
 }
 
-/*function email(){
+function email(){
 }
-*/
 
-/*function sendEmail() {
-  // Prompt the user for input
-  const userInput = window.prompt('Enter your message');
 
-  // Use SendGrid to send the email
-  const sgClient = window.SG;
+function sendEmail() {
+  let userInput = window.prompt("Please enter some input:");
 
-  sgClient.setApiKey('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');
+// authenticate the user using the Google API client library
+gapi.auth2.getAuthInstance().signIn().then(() => {
+  // create the email message
+  let message = [
+    "Content-Type: text/plain; charset=\"UTF-8\"\r\n",
+    "From: sarahhadleysmith@gmail.com\r\n",
+    "To: sarahhadleysmith@gmail.com\r\n",
+    "Subject: User input from my website\r\n\r\n",
+    userInput
+  ].join("");
 
-  const msg = {
-    to: 'sarahhadleysmith@gmail.com',
-    from: 'sarahhadleysmith@gmail.com',
-    subject: 'User Input',
-    text: userInput
-  };
-
-  sgClient.send(msg)
-    .then(function(response) {
-      console.log('SUCCESS!', response);
-    })
-    .catch(function(error) {
-      console.log('FAILED...', error);
-    });
+  // send the email using the Gmail API client library
+  gapi.client.gmail.users.messages.send({
+    'userId': 'me',
+    'resource': {
+      'raw': window.btoa(message).replace(/\+/g, '-').replace(/\//g, '_')
+    }
+  }).then((response) => {
+    console.log(response.result);
+  });
+});
 }
-*/
